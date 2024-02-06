@@ -1,0 +1,17 @@
+<!-- res/values/styles.xml -->
+<resources>
+
+
+    <!-- Popup overlay style -->
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <!-- Specify any overlay styles if needed -->
+        <item name="colorPrimary">@color/design_default_color_primary</item>
+    </style>
+
+        <!-- Toolbar title text color style -->
+        <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+            <item name="android:textColor">@android:color/white</item>
+        </style>
+
+
+</resources>

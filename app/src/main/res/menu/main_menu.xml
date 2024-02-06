@@ -1,0 +1,10 @@
+<!-- your_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/profile"
+        android:title="Profile"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <!-- Add more items as needed -->
+</menu>

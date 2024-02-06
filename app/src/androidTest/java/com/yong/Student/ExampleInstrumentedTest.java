@@ -1,4 +1,4 @@
-package com.yong.studentcontrol;
+package com.yong.Student;
 
 import android.content.Context;
 

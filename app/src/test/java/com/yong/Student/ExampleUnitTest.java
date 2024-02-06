@@ -1,4 +1,4 @@
-package com.yong.studentcontrol;
+package com.yong.Student;
 
 import org.junit.Test;
 
