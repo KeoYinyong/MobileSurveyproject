@@ -43,4 +43,21 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="personal_information">Register Account</string>
+    <string name="enter_your_name">Enter Your Name</string>
+    <string name="enter_email_address">Enter Email Address</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="todo">TODO</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="login_password">Enter Password</string>
+    <string name="login_email">Enter Email</string>
+    <string name="txt_login">Login</string>
+    <string name="todo_login">TODO</string>
+    <string name="menu_list">Menu List</string>
+    <string name="student_survey">Student Survey</string>
+    <string name="todo_menu">TODO</string>
+    <string name="profile_toolbar">Profile</string>
 </resources>

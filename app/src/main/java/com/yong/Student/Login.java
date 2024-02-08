@@ -36,16 +36,15 @@ public class Login extends AppCompatActivity {
 
         lg_email = (EditText) findViewById(login_email);
         login_password = (EditText) findViewById(R.id.login_password);
-        btn_login = findViewById(R.id.btn_login);
-        buttonSignUp = findViewById(R.id.btn_signup);
+        btn_login = findViewById(R.id.login);
+        buttonSignUp = findViewById(R.id.register);
 
         loadingBar = new ProgressDialog(this);
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Launch the sign-up activity
-                Intent intent = new Intent(Login.this, SignUp.class);
-                startActivity(intent);
+                TosignUp();
             }
         });
 
@@ -55,6 +54,11 @@ public class Login extends AppCompatActivity {
                 userLogin();
             }
         });
+    }
+
+    private void TosignUp() {
+        Intent SignupIntent = new Intent(Login.this, SignUp.class);
+        startActivity(SignupIntent);
     }
 
     private void userLogin() {
@@ -70,24 +74,26 @@ public class Login extends AppCompatActivity {
             loadingBar.show();
             loadingBar.setCanceledOnTouchOutside(true);
 
-            auth.createUserWithEmailAndPassword(email, password)
+            // Use signInWithEmailAndPassword instead of createUserWithEmailAndPassword
+            auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 sendUserToMainMenuActivity();
-                                Toast.makeText(Login.this, "you are login succeessfully...", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "You are logged in successfully...", Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
 
                             } else {
                                 String message = task.getException().getMessage();
-                                Toast.makeText(Login.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Error Occurred: " + message, Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();
                             }
                         }
                     });
         }
     }
+
 
     private void sendUserToMainMenuActivity() {
         Intent loginIntent = new Intent(Login.this, MainActivity.class);

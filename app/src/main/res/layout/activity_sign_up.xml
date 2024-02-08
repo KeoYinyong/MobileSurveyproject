@@ -17,14 +17,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/img" />
+        app:srcCompat="@drawable/img"
+        android:contentDescription="@string/todo" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Personal Information"
+        android:text="@string/personal_information"
         android:textAlignment="center"
         android:textColor="@color/design_default_color_primary_dark"
         android:textSize="12pt"
@@ -52,7 +53,7 @@
             android:id="@+id/txt_username"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Your Name"
+            android:hint="@string/enter_your_name"
             android:textSize="15sp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -75,7 +76,7 @@
             android:id="@+id/txt_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Email Address"
+            android:hint="@string/enter_email_address"
             android:textSize="15sp"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,7 +99,7 @@
             android:id="@+id/txt_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter Password"
+            android:hint="@string/enter_password"
             android:inputType="textPassword"
             android:textSize="15sp"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -122,7 +123,7 @@
             android:id="@+id/txt_password2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Confirm Password"
+            android:hint="@string/confirm_password"
             android:inputType="textPassword"
             android:textSize="15sp"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -134,7 +135,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Sign Up"
+        android:text="@string/sign_up"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"

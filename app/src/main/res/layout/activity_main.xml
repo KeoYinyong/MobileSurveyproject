@@ -14,7 +14,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Menu List"
+        android:text="@string/menu_list"
         android:textSize="25sp"
         android:textColor="#000000"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/rectangular_button_background"
         android:shadowColor="#353232"
-        android:text="Student Survey"
+        android:text="@string/student_survey"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
@@ -48,6 +48,7 @@
         android:src="@drawable/ic_arrow"
         app:layout_constraintBottom_toBottomOf="@id/btnStudentSurvey"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnStudentSurvey" />
+        app:layout_constraintTop_toTopOf="@id/btnStudentSurvey"
+        android:contentDescription="@string/todo_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

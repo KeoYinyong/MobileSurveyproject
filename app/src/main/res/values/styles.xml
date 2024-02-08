@@ -11,6 +11,7 @@
         <!-- Toolbar title text color style -->
         <style name="ToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
             <item name="android:textColor">@android:color/white</item>
+            <item name="android:background">@android:color/white</item>
         </style>
 
 
