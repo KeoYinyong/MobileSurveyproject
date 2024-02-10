@@ -3,18 +3,19 @@ package com.yong.Student;
 public class Note {
     String key, title, content;
 
-    public Note(){
+    public Note() {
 
     }
 
-    public String getTitle(){
+    public String getTitle() {
         return title;
     }
 
-    public String getKey(){
+    public String getKey() {
         return key;
     }
-    public String getContent(){
+
+    public String getContent() {
         return content;
     }
 

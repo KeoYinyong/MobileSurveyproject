@@ -12,11 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     Context context;
     ArrayList<Note> arrayList;
     onItemClickListener onItemClickListener;
-    public NoteAdapter(Context context, ArrayList<Note> arrayList){
+
+    public NoteAdapter(Context context, ArrayList<Note> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
     }
@@ -36,7 +37,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               onItemClickListener.onClick(arrayList.get(position));
+                onItemClickListener.onClick(arrayList.get(position));
             }
         });
     }
@@ -46,8 +47,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
         return arrayList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        TextView title , subtitle;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title, subtitle;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -60,7 +61,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder>{
         this.onItemClickListener = onItemClickListener;
     }
 
-    public interface onItemClickListener{
+    public interface onItemClickListener {
         void onClick(Note note);
     }
 }

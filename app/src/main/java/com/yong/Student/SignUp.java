@@ -53,25 +53,22 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
-    private void CreateNewAccount(){
+    private void CreateNewAccount() {
         String name = txt_username.getText().toString();
         String email = txt_email.getText().toString();
         String password = txt_password.getText().toString();
         String password2 = txt_password2.getText().toString();
-        if (TextUtils.isEmpty(name)){
+        if (TextUtils.isEmpty(name)) {
             Toast.makeText(this, "Please write your name...", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(email)){
+        } else if (TextUtils.isEmpty(email)) {
             Toast.makeText(this, "Please write your email...", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(password)){
+        } else if (TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Please write your password...", Toast.LENGTH_SHORT).show();
-        }
-        else if (TextUtils.isEmpty(password2)){
+        } else if (TextUtils.isEmpty(password2)) {
             Toast.makeText(this, "Please confirm your password...", Toast.LENGTH_SHORT).show();
         } else if (!password.equals(password2)) {
             Toast.makeText(this, "your password do not match with your confirm password !", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
 
             loadingBar.setTitle("Creating New Account");
             loadingBar.setMessage("Please wait, while we are creating your new account...");
@@ -82,7 +79,7 @@ public class SignUp extends AppCompatActivity {
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()){
+                            if (task.isSuccessful()) {
                                 SendUserToMainActivity();
                                 Toast.makeText(SignUp.this, "you are authenticated successfully...", Toast.LENGTH_SHORT).show();
                                 FirebaseUser firebaseUser = auth.getCurrentUser();
@@ -100,7 +97,7 @@ public class SignUp extends AppCompatActivity {
 
                                     }
                                 });
-                            }else {
+                            } else {
                                 String message = task.getException().getMessage();
                                 Toast.makeText(SignUp.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
                                 loadingBar.dismiss();

@@ -6,21 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <include layout="@layout/toolbar"
+    <include
         android:id="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="parent"/>
+        layout="@layout/toolbar"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/menu_list"
-        android:textSize="25sp"
-        android:textColor="#000000"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:text="@string/menu_list"
+        android:textColor="#000000"
+        android:textSize="25sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <Button
         android:id="@+id/btnStudentSurvey"
@@ -45,10 +46,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
+        android:contentDescription="@string/todo_menu"
         android:src="@drawable/ic_arrow"
         app:layout_constraintBottom_toBottomOf="@id/btnStudentSurvey"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnStudentSurvey"
-        android:contentDescription="@string/todo_menu" />
+        app:layout_constraintTop_toTopOf="@id/btnStudentSurvey" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

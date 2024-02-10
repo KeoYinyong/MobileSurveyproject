@@ -1,7 +1,9 @@
 package com.yong.Student;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
@@ -9,6 +11,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +38,16 @@ public class SurveyMenu extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_survey_menu);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Survey");
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+        }
+
         FirebaseApp.initializeApp(SurveyMenu.this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -52,38 +65,38 @@ public class SurveyMenu extends AppCompatActivity {
                 contentET = view1.findViewById(R.id.contentET);
 
                 AlertDialog alertDialog = new AlertDialog.Builder(SurveyMenu.this)
-                       .setTitle("Add")
-                       .setView(view1)
-                       .setPositiveButton("add", new DialogInterface.OnClickListener() {
-                           @Override
-                           public void onClick(DialogInterface dialogInterface, int which) {
-                               if (Objects.requireNonNull(titleET.getText()).toString().isEmpty()){
-                                   titleLayout.setError("This field ia required!");
-                               } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()){
-                                   contentLayout.setError("This field ia required!");
-                               }else {
-                                   ProgressDialog dialog1 = new ProgressDialog(SurveyMenu.this);
-                                   dialog1.setMessage("Storing in Database....");
+                        .setTitle("Add")
+                        .setView(view1)
+                        .setPositiveButton("add", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int which) {
+                                if (Objects.requireNonNull(titleET.getText()).toString().isEmpty()) {
+                                    titleLayout.setError("This field ia required!");
+                                } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()) {
+                                    contentLayout.setError("This field ia required!");
+                                } else {
+                                    ProgressDialog dialog1 = new ProgressDialog(SurveyMenu.this);
+                                    dialog1.setMessage("Storing in Database....");
                                     Note note = new Note();
                                     note.setTitle(titleET.getText().toString());
                                     note.setContent(contentET.getText().toString());
-                                   database.getReference().child("noted").push().setValue(note).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                       @Override
-                                       public void onSuccess(Void unused) {
-                                           dialog1.dismiss();
-                                           dialogInterface.dismiss();
-                                           Toast.makeText(SurveyMenu.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
-                                       }
-                                   }).addOnFailureListener(new OnFailureListener() {
-                                       @Override
-                                       public void onFailure(@NonNull Exception e) {
-                                           dialog1.dismiss();
-                                           Toast.makeText(SurveyMenu.this, "There was erorr while saving data", Toast.LENGTH_SHORT).show();
-                                       }
-                                   });
-                               }
-                           }
-                       })
+                                    database.getReference().child("noted").push().setValue(note).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            dialog1.dismiss();
+                                            dialogInterface.dismiss();
+                                            Toast.makeText(SurveyMenu.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            dialog1.dismiss();
+                                            Toast.makeText(SurveyMenu.this, "There was erorr while saving data", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                }
+                            }
+                        })
                         .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int which) {
@@ -103,16 +116,16 @@ public class SurveyMenu extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 ArrayList<Note> arrayList = new ArrayList<>();
-                for (DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
+                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
                     Note note = dataSnapshot1.getValue(Note.class);
                     Objects.requireNonNull(note).setKey(dataSnapshot1.getKey());
                     arrayList.add(note);
                 }
 
-                if (arrayList.isEmpty()){
+                if (arrayList.isEmpty()) {
                     empty.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
-                }else {
+                } else {
                     empty.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
@@ -124,7 +137,7 @@ public class SurveyMenu extends AppCompatActivity {
                     @Override
                     public void onClick(Note note) {
                         View view = LayoutInflater.from(SurveyMenu.this).inflate(R.layout.add_note_dialog, null);
-                        TextInputLayout titleLayout , contentLayout;
+                        TextInputLayout titleLayout, contentLayout;
                         TextInputEditText titleET, contentET;
 
                         titleET = view.findViewById(R.id.titleET);
@@ -137,17 +150,17 @@ public class SurveyMenu extends AppCompatActivity {
 
                         ProgressDialog progressDialog = new ProgressDialog(SurveyMenu.this);
 
-                        AlertDialog alertDialog =  new AlertDialog.Builder(SurveyMenu.this)
+                        AlertDialog alertDialog = new AlertDialog.Builder(SurveyMenu.this)
                                 .setTitle("Edit")
                                 .setView(view)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int which) {
-                                        if (Objects.requireNonNull(titleET.getText()).toString().isEmpty()){
+                                        if (Objects.requireNonNull(titleET.getText()).toString().isEmpty()) {
                                             titleLayout.setError("This field ia required!");
-                                        } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()){
+                                        } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()) {
                                             contentLayout.setError("This field ia required!");
-                                        }else {
+                                        } else {
                                             progressDialog.setMessage("Saving....");
                                             progressDialog.show();
                                             Note note1 = new Note();
@@ -208,4 +221,20 @@ public class SurveyMenu extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here.
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            // This is the ID for the back button in the action bar/toolbar
+            // Navigate back to MainActivity
+            onBackPressed(); // This will simulate the back button press
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

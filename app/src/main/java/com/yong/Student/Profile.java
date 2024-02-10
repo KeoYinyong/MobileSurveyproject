@@ -52,7 +52,7 @@ public class Profile extends AppCompatActivity {
         authProfile = FirebaseAuth.getInstance();
         FirebaseUser firebaseUser = authProfile.getCurrentUser();
 
-        if (firebaseUser == null){
+        if (firebaseUser == null) {
             // Handle the case where user is not logged in
             Toast.makeText(Profile.this, "User not logged in!", Toast.LENGTH_SHORT).show();
         } else {
