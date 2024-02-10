@@ -4,15 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
     android:background="#DCDCDC"
     tools:context=".Profile">
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <include layout="@layout/toolbar"
+            android:id="@+id/toolbar"
+            app:layout_constraintTop_toTopOf="parent"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -24,18 +28,20 @@
                 android:layout_centerInParent="true"
                 android:background="@drawable/img" />
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
+                android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:textSize="25dp"
-                android:textStyle="bold"
+                android:hint="loading"
                 android:textColor="@color/design_default_color_primary_dark"
-                android:text="@string/personal_information" />
+                android:textSize="25dp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -44,6 +50,8 @@
             android:padding="15dp"
             android:layout_margin="15dp"
             android:background="@color/white">
+
+        <!--show name-->
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -63,9 +71,11 @@
                 android:background="@android:color/darker_gray"
                 android:id="@+id/divider_name"/>
 
+            <!--show email-->
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:id="@+id/email"
                 android:background="@mipmap/sms"
                 android:layout_below="@+id/divider_name"
                 android:layout_marginTop="20dp"/>
@@ -82,15 +92,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginTop="20dp"
-                android:layout_below="@+id/textview_name"
-                android:background="@android:color/darker_gray"/>
+                android:layout_below="@+id/textview_email"
+                android:background="@android:color/darker_gray"
+                android:id="@+id/divider_email"/>
 
+            <!--show password-->
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/password"
+                android:background="@mipmap/pass"
+                android:layout_below="@+id/divider_email"
+                android:layout_marginTop="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textview_password"
+                android:hint="loading"
+                android:layout_marginStart="50dp"
+                android:layout_below="@+id/divider_email"
+                android:layout_marginTop="20dp"
+                android:textSize="18sp"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/textview_password"
+                android:background="@android:color/darker_gray"
+                android:id="@+id/divider_password"/>
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
     </LinearLayout>
-
-
-
 
 </ScrollView>
