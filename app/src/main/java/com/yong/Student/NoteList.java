@@ -21,7 +21,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.Firebase;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,12 +30,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class SurveyMenu extends AppCompatActivity {
+public class NoteList extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_survey_menu);
+        setContentView(R.layout.activity_note_list);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Survey");
@@ -48,14 +47,14 @@ public class SurveyMenu extends AppCompatActivity {
 
         }
 
-        FirebaseApp.initializeApp(SurveyMenu.this);
+        FirebaseApp.initializeApp(NoteList.this);
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
         FloatingActionButton add = findViewById(R.id.addNote);
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                View view1 = LayoutInflater.from(SurveyMenu.this).inflate(R.layout.add_note_dialog, null);
+                View view1 = LayoutInflater.from(NoteList.this).inflate(R.layout.add_note_dialog, null);
                 TextInputLayout titleLayout, contentLayout;
                 titleLayout = view1.findViewById(R.id.titleLayout);
                 contentLayout = view1.findViewById(R.id.conntentLayout);
@@ -64,7 +63,7 @@ public class SurveyMenu extends AppCompatActivity {
                 titleET = view1.findViewById(R.id.titleET);
                 contentET = view1.findViewById(R.id.contentET);
 
-                AlertDialog alertDialog = new AlertDialog.Builder(SurveyMenu.this)
+                AlertDialog alertDialog = new AlertDialog.Builder(NoteList.this)
                         .setTitle("Add")
                         .setView(view1)
                         .setPositiveButton("add", new DialogInterface.OnClickListener() {
@@ -75,7 +74,7 @@ public class SurveyMenu extends AppCompatActivity {
                                 } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()) {
                                     contentLayout.setError("This field ia required!");
                                 } else {
-                                    ProgressDialog dialog1 = new ProgressDialog(SurveyMenu.this);
+                                    ProgressDialog dialog1 = new ProgressDialog(NoteList.this);
                                     dialog1.setMessage("Storing in Database....");
                                     Note note = new Note();
                                     note.setTitle(titleET.getText().toString());
@@ -85,13 +84,13 @@ public class SurveyMenu extends AppCompatActivity {
                                         public void onSuccess(Void unused) {
                                             dialog1.dismiss();
                                             dialogInterface.dismiss();
-                                            Toast.makeText(SurveyMenu.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(NoteList.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
                                         }
                                     }).addOnFailureListener(new OnFailureListener() {
                                         @Override
                                         public void onFailure(@NonNull Exception e) {
                                             dialog1.dismiss();
-                                            Toast.makeText(SurveyMenu.this, "There was erorr while saving data", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(NoteList.this, "There was erorr while saving data", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                                 }
@@ -130,13 +129,13 @@ public class SurveyMenu extends AppCompatActivity {
                     recyclerView.setVisibility(View.VISIBLE);
                 }
 
-                NoteAdapter adapter = new NoteAdapter(SurveyMenu.this, arrayList);
+                NoteAdapter adapter = new NoteAdapter(NoteList.this, arrayList);
                 recyclerView.setAdapter(adapter);
 
                 adapter.setOnItemClickListener(new NoteAdapter.onItemClickListener() {
                     @Override
                     public void onClick(Note note) {
-                        View view = LayoutInflater.from(SurveyMenu.this).inflate(R.layout.add_note_dialog, null);
+                        View view = LayoutInflater.from(NoteList.this).inflate(R.layout.add_note_dialog, null);
                         TextInputLayout titleLayout, contentLayout;
                         TextInputEditText titleET, contentET;
 
@@ -148,9 +147,9 @@ public class SurveyMenu extends AppCompatActivity {
                         titleET.setText(note.getTitle());
                         contentET.setText(note.getContent());
 
-                        ProgressDialog progressDialog = new ProgressDialog(SurveyMenu.this);
+                        ProgressDialog progressDialog = new ProgressDialog(NoteList.this);
 
-                        AlertDialog alertDialog = new AlertDialog.Builder(SurveyMenu.this)
+                        AlertDialog alertDialog = new AlertDialog.Builder(NoteList.this)
                                 .setTitle("Edit")
                                 .setView(view)
                                 .setPositiveButton("Save", new DialogInterface.OnClickListener() {
@@ -171,13 +170,13 @@ public class SurveyMenu extends AppCompatActivity {
                                                 public void onSuccess(Void unused) {
                                                     progressDialog.dismiss();
                                                     dialogInterface.dismiss();
-                                                    Toast.makeText(SurveyMenu.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(NoteList.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
                                                 public void onFailure(@NonNull Exception e) {
                                                     progressDialog.dismiss();
-                                                    Toast.makeText(SurveyMenu.this, "There was erorr while saving data", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(NoteList.this, "There was erorr while saving data", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
                                         }
@@ -198,7 +197,7 @@ public class SurveyMenu extends AppCompatActivity {
                                             @Override
                                             public void onSuccess(Void unused) {
                                                 progressDialog.dismiss();
-                                                Toast.makeText(SurveyMenu.this, "Deleted Seccess", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(NoteList.this, "Deleted Seccess", Toast.LENGTH_SHORT).show();
 
                                             }
                                         }).addOnFailureListener(new OnFailureListener() {

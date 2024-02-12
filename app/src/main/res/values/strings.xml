@@ -57,7 +57,8 @@
     <string name="txt_login">Login</string>
     <string name="todo_login">TODO</string>
     <string name="menu_list">Menu List</string>
-    <string name="student_survey">Student Survey</string>
+    <string name="student_survey">Student Note</string>
     <string name="todo_menu">TODO</string>
     <string name="profile_toolbar">Profile</string>
+    <string name="list_is_empty">List is Empty</string>
 </resources>

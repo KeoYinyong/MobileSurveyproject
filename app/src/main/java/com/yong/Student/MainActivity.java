@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         survey.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent surveyIntent = new Intent(MainActivity.this, SurveyMenu.class);
+                Intent surveyIntent = new Intent(MainActivity.this, NoteList.class);
                 startActivity(surveyIntent);
             }
         });
