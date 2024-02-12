@@ -38,7 +38,7 @@ public class NoteList extends AppCompatActivity {
         setContentView(R.layout.activity_note_list);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Survey");
+        toolbar.setTitle("Note List");
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();

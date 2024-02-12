@@ -34,7 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <TextView
+            <EditText
                 android:id="@+id/text_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -58,7 +58,7 @@
                 android:layout_height="30dp"
                 android:background="@mipmap/img" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textview_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@mipmap/sms" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textview_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -110,7 +110,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@mipmap/pass" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textview_password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -118,6 +118,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="loading"
+                android:minHeight="48dp"
                 android:textSize="18sp" />
 
             <View

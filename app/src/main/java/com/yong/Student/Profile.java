@@ -1,33 +1,23 @@
 package com.yong.Student;
 
-import androidx.annotation.NonNull;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class Profile extends AppCompatActivity {
-    private TextView textName;
-    private TextView textEmail;
-    private ProgressBar processB;
 
-    private FirebaseAuth authProfile;
-
+    private EditText textName, textEmail, textPassword;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +25,7 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Profile");
+        toolbar.setTitle("Note List");
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -44,20 +34,37 @@ public class Profile extends AppCompatActivity {
 
         }
 
-
+        // Initialize views
         textName = findViewById(R.id.textview_name);
         textEmail = findViewById(R.id.textview_email);
-        processB = findViewById(R.id.progressBar);
+        textPassword = findViewById(R.id.textview_password);
+        progressBar = findViewById(R.id.progressBar);
 
-        authProfile = FirebaseAuth.getInstance();
-        FirebaseUser firebaseUser = authProfile.getCurrentUser();
+        // Fetch and display user profile data
+        fetchUserProfile();
+    }
 
-        if (firebaseUser == null) {
-            // Handle the case where user is not logged in
-            Toast.makeText(Profile.this, "User not logged in!", Toast.LENGTH_SHORT).show();
+    // Inside fetchUserProfile() method in Profile activity
+    private void fetchUserProfile() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            // Fetch user profile data from Firebase or any other source
+            String name = user.getDisplayName(); // Retrieve the display name (username)
+            String email = user.getEmail();
+
+            // Set the retrieved data to EditText fields
+            textName.setText(name); // Set the username to the EditText field for name
+            textEmail.setText(email);
+            // You may choose not to display password for security reasons
+            textPassword.setText("********"); // Dummy password placeholder
+
+            // Hide progress bar once data is loaded
+            progressBar.setVisibility(View.GONE);
         } else {
-            processB.setVisibility(View.VISIBLE);
-            showUserProfile(firebaseUser);
+            // Handle case when user is not logged in
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
+            finish(); // Close this activity if user is not logged in
         }
     }
 
@@ -72,38 +79,8 @@ public class Profile extends AppCompatActivity {
             onBackPressed(); // This will simulate the back button press
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
 
-    private void showUserProfile(FirebaseUser firebaseUser) {
-        String userId = firebaseUser.getUid();
-
-        DatabaseReference referenceProfile = FirebaseDatabase.getInstance().getReference("Registered User");
-        referenceProfile.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    UserDetails userDetails = dataSnapshot.getValue(UserDetails.class);
-                    if (userDetails != null) {
-                        String userName = userDetails.getName();
-//                        String email = userDetails.getEmail();
-
-                        textName.setText(userName);
-//                        textEmail.setText(email);
-                    }
-                } else {
-                    Toast.makeText(Profile.this, "User data not found!", Toast.LENGTH_SHORT).show();
-                }
-                processB.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(Profile.this, "Database error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
-                processB.setVisibility(View.GONE);
-            }
-        });
-    }
 }
