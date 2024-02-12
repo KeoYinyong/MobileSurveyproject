@@ -13,11 +13,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <!-- Toolbar -->
         <include
             android:id="@+id/toolbar"
             layout="@layout/toolbar"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Profile Image -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -30,6 +32,7 @@
                 android:background="@drawable/img" />
         </RelativeLayout>
 
+        <!-- Display Name -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -45,6 +48,7 @@
                 android:textStyle="bold" />
         </RelativeLayout>
 
+        <!-- Information Section -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -52,7 +56,7 @@
             android:background="@color/white"
             android:padding="15dp">
 
-            <!--show name-->
+            <!-- Name -->
             <ImageView
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -64,6 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="50dp"
                 android:hint="loading"
+                android:minHeight="48dp"
                 android:textSize="18sp" />
 
             <View
@@ -74,7 +79,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@android:color/darker_gray" />
 
-            <!--show email-->
+            <!-- Email -->
             <ImageView
                 android:id="@+id/email"
                 android:layout_width="30dp"
@@ -91,6 +96,7 @@
                 android:layout_marginStart="50dp"
                 android:layout_marginTop="20dp"
                 android:hint="loading"
+                android:minHeight="48dp"
                 android:textSize="18sp" />
 
             <View
@@ -101,7 +107,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@android:color/darker_gray" />
 
-            <!--show password-->
+            <!-- Password -->
             <ImageView
                 android:id="@+id/password"
                 android:layout_width="30dp"
@@ -129,6 +135,28 @@
                 android:layout_marginTop="20dp"
                 android:background="@android:color/darker_gray" />
 
+            <!-- Buttons for Updating Information and Deleting Account -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_update_information"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/divider_password"
+                android:layout_marginTop="20dp"
+                android:onClick="updateUserProfile"
+                android:text="Update Information"
+                android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_delete_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/btn_update_information"
+                android:layout_marginTop="20dp"
+                android:onClick="deleteUserAccount"
+                android:text="Delete Account"
+                android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton" />
+
+            <!-- Progress Bar (Optional) -->
             <ProgressBar
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"

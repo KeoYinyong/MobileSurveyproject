@@ -11,6 +11,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,10 +52,22 @@ public class MainActivity extends AppCompatActivity {
             // Open the profile activity
             startActivity(new Intent(MainActivity.this, Profile.class));
             return true;
+        } else if (id == R.id.logout) {
+            // Perform logout
+            logoutUser();
+            return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+    private void logoutUser() {
+        // Implement logout functionality here
+        // For example, sign out the current user from Firebase Authentication
+        FirebaseAuth.getInstance().signOut();
+
+        // Redirect to the login activity or any other activity as needed
+        startActivity(new Intent(MainActivity.this, Login.class));
+        finish(); // Close this activity
+    }
 
 }

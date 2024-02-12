@@ -1,5 +1,6 @@
 package com.yong.Student;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,10 +14,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class Profile extends AppCompatActivity {
 
-    private EditText textName, textEmail, textPassword;
+    private EditText textName, textEmail, textPassword, profileName;
     private ProgressBar progressBar;
 
     @Override
@@ -31,56 +33,90 @@ public class Profile extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
-
         }
 
         // Initialize views
         textName = findViewById(R.id.textview_name);
         textEmail = findViewById(R.id.textview_email);
         textPassword = findViewById(R.id.textview_password);
+        profileName = findViewById(R.id.text_name);
         progressBar = findViewById(R.id.progressBar);
 
         // Fetch and display user profile data
         fetchUserProfile();
     }
 
-    // Inside fetchUserProfile() method in Profile activity
+    // Fetch user profile data from Firebase
     private void fetchUserProfile() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
-            // Fetch user profile data from Firebase or any other source
-            String name = user.getDisplayName(); // Retrieve the display name (username)
+            String name = user.getDisplayName();
             String email = user.getEmail();
 
-            // Set the retrieved data to EditText fields
-            textName.setText(name); // Set the username to the EditText field for name
+            // Set user profile data to EditText fields
+            profileName.setText(name);
+            textName.setText(name);
             textEmail.setText(email);
-            // You may choose not to display password for security reasons
             textPassword.setText("********"); // Dummy password placeholder
 
             // Hide progress bar once data is loaded
             progressBar.setVisibility(View.GONE);
         } else {
-            // Handle case when user is not logged in
             Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show();
             finish(); // Close this activity if user is not logged in
         }
     }
 
+    // Update user's display name (username)
+    public void updateUserProfile(View view) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            String newName = profileName.getText().toString();
+
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(newName)
+                    .build();
+
+            user.updateProfile(profileUpdates)
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(Profile.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(Profile.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
+    // Delete user's account
+    public void deleteUserAccount(View view) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        if (user != null) {
+            user.delete()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(Profile.this, "Account deleted successfully", Toast.LENGTH_SHORT).show();
+                            // Redirect to login activity or any other activity as needed
+                            startActivity(new Intent(Profile.this, Login.class));
+                            finish();
+                        } else {
+                            Toast.makeText(Profile.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here.
         int id = item.getItemId();
 
         if (id == android.R.id.home) {
-            // This is the ID for the back button in the action bar/toolbar
-            // Navigate back to MainActivity
-            onBackPressed(); // This will simulate the back button press
+            onBackPressed();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }
