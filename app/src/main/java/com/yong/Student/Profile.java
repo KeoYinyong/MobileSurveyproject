@@ -18,7 +18,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 public class Profile extends AppCompatActivity {
 
-    private EditText textName, textEmail, textPassword, profileName;
+    private EditText textName, textEmail, textPassword, profileName, new_password, confirm_new_password;
     private ProgressBar progressBar;
 
     @Override
@@ -27,7 +27,7 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Note List");
+        toolbar.setTitle("Profile");
         setSupportActionBar(toolbar);
 
         ActionBar actionBar = getSupportActionBar();
@@ -40,6 +40,8 @@ public class Profile extends AppCompatActivity {
         textEmail = findViewById(R.id.textview_email);
         textPassword = findViewById(R.id.textview_password);
         profileName = findViewById(R.id.text_name);
+        new_password = findViewById(R.id.new_password);
+        confirm_new_password =findViewById(R.id.confirm_new_password);
         progressBar = findViewById(R.id.progressBar);
 
         // Fetch and display user profile data
@@ -69,11 +71,20 @@ public class Profile extends AppCompatActivity {
     }
 
     // Update user's display name (username)
+// Update user's display name (username) and password
     public void updateUserProfile(View view) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         if (user != null) {
             String newName = profileName.getText().toString();
+            String newPassword = new_password.getText().toString();
+            String confirmNewPassword = confirm_new_password.getText().toString();
+
+            // Check if new password and confirm new password match
+            if (!newPassword.equals(confirmNewPassword)) {
+                Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                     .setDisplayName(newName)
@@ -82,13 +93,26 @@ public class Profile extends AppCompatActivity {
             user.updateProfile(profileUpdates)
                     .addOnCompleteListener(task -> {
                         if (task.isSuccessful()) {
-                            Toast.makeText(Profile.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                            // Update password only if it's not empty
+                            if (!newPassword.isEmpty()) {
+                                user.updatePassword(newPassword)
+                                        .addOnCompleteListener(passwordTask -> {
+                                            if (passwordTask.isSuccessful()) {
+                                                Toast.makeText(Profile.this, "Profile and password updated successfully", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(Profile.this, "Failed to update password", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                            } else {
+                                Toast.makeText(Profile.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
                             Toast.makeText(Profile.this, "Failed to update profile", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
     }
+
 
     // Delete user's account
     public void deleteUserAccount(View view) {

@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,165 +7,224 @@
     android:background="#DCDCDC"
     tools:context=".Profile">
 
-
-    <LinearLayout
+    <!-- Toolbar -->
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Toolbar -->
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar"
+    <!-- Profile Image -->
+    <ImageView
+        android:id="@+id/profile_image"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/img"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <!-- Display Name -->
+    <EditText
+        android:id="@+id/text_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:hint="loading"
+        android:textColor="@color/design_default_color_primary_dark"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/profile_image" />
+
+    <!-- Information Section -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/information_section"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/text_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Name -->
+        <ImageView
+            android:id="@+id/name_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:background="@mipmap/img"
+            app:layout_constraintBottom_toTopOf="@+id/divider_name"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Profile Image -->
-        <RelativeLayout
+        <EditText
+            android:id="@+id/textview_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="16dp"
+            android:hint="loading"
+            android:minHeight="40dp"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/name_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/name_icon"
+            app:layout_constraintTop_toTopOf="@id/name_icon" />
+
+        <View
+            android:id="@+id/divider_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/textview_name" />
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_centerInParent="true"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/img" />
-        </RelativeLayout>
+        <!-- Email -->
+        <ImageView
+            android:id="@+id/email_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:background="@mipmap/sms"
+            app:layout_constraintBottom_toTopOf="@+id/divider_email"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_name" />
 
-        <!-- Display Name -->
-        <RelativeLayout
+        <EditText
+            android:id="@+id/textview_email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="16dp"
+            android:hint="loading"
+            android:minHeight="40dp"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/email_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/email_icon"
+            app:layout_constraintTop_toTopOf="@id/email_icon" />
+
+        <View
+            android:id="@+id/divider_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/textview_email" />
 
-            <EditText
-                android:id="@+id/text_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:hint="loading"
-                android:textColor="@color/design_default_color_primary_dark"
-                android:textSize="25dp"
-                android:textStyle="bold" />
-        </RelativeLayout>
+        <!-- Password -->
+        <ImageView
+            android:id="@+id/password_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:background="@mipmap/pass"
+            app:layout_constraintBottom_toTopOf="@+id/divider_password"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_email" />
 
-        <!-- Information Section -->
-        <RelativeLayout
+        <EditText
+            android:id="@+id/textview_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="16dp"
+            android:hint="loading"
+            android:minHeight="40dp"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="@id/password_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/password_icon"
+            app:layout_constraintTop_toTopOf="@id/password_icon" />
+
+        <View
+            android:id="@+id/divider_password"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="15dp"
-            android:background="@color/white"
-            android:padding="15dp">
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@id/textview_password" />
 
-            <!-- Name -->
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:background="@mipmap/img" />
+        <!-- New Password -->
+        <EditText
+            android:id="@+id/new_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="New Password"
+            android:inputType="textPassword"
+            android:minHeight="40dp"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider_password" />
 
-            <EditText
-                android:id="@+id/textview_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:hint="loading"
-                android:minHeight="48dp"
-                android:textSize="18sp" />
+        <!-- Confirm New Password -->
+        <EditText
+            android:id="@+id/confirm_new_password"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="Confirm New Password"
+            android:inputType="textPassword"
+            android:minHeight="40dp"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/new_password" />
 
-            <View
-                android:id="@+id/divider_name"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/textview_name"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/darker_gray" />
+        <!-- Progress Bar (Optional) -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-            <!-- Email -->
-            <ImageView
-                android:id="@+id/email"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@+id/divider_name"
-                android:layout_marginTop="20dp"
-                android:background="@mipmap/sms" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <EditText
-                android:id="@+id/textview_email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/divider_name"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="20dp"
-                android:hint="loading"
-                android:minHeight="48dp"
-                android:textSize="18sp" />
 
-            <View
-                android:id="@+id/divider_email"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/textview_email"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/darker_gray" />
+    <!-- Buttons for Updating Information and Deleting Account -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_update_information"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:onClick="updateUserProfile"
+        android:text="Update Information"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/information_section"
+        android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
-            <!-- Password -->
-            <ImageView
-                android:id="@+id/password"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_below="@+id/divider_email"
-                android:layout_marginTop="20dp"
-                android:background="@mipmap/pass" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_delete_account"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:onClick="deleteUserAccount"
+        android:text="Delete Account"
+        android:backgroundTint="@color/red"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/btn_update_information"
+    android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton" />
 
-            <EditText
-                android:id="@+id/textview_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/divider_email"
-                android:layout_marginStart="50dp"
-                android:layout_marginTop="20dp"
-                android:hint="loading"
-                android:minHeight="48dp"
-                android:textSize="18sp" />
 
-            <View
-                android:id="@+id/divider_password"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_below="@+id/textview_password"
-                android:layout_marginTop="20dp"
-                android:background="@android:color/darker_gray" />
-
-            <!-- Buttons for Updating Information and Deleting Account -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_update_information"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/divider_password"
-                android:layout_marginTop="20dp"
-                android:onClick="updateUserProfile"
-                android:text="Update Information"
-                android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_delete_account"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/btn_update_information"
-                android:layout_marginTop="20dp"
-                android:onClick="deleteUserAccount"
-                android:text="Delete Account"
-                android:theme="@style/Widget.MaterialComponents.Button.OutlinedButton" />
-
-            <!-- Progress Bar (Optional) -->
-            <ProgressBar
-                android:id="@+id/progressBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
-
-        </RelativeLayout>
-
-    </LinearLayout>
-
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
