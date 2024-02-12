@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -108,6 +109,7 @@ public class NoteList extends AppCompatActivity {
         });
 
         TextView empty = findViewById(R.id.empty);
+        ImageView imgEmpty = findViewById(R.id.img_empty);
 
         RecyclerView recyclerView = findViewById(R.id.recycler);
 
@@ -123,9 +125,11 @@ public class NoteList extends AppCompatActivity {
 
                 if (arrayList.isEmpty()) {
                     empty.setVisibility(View.VISIBLE);
+                    imgEmpty.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
                 } else {
                     empty.setVisibility(View.GONE);
+                    imgEmpty.setVisibility(View.GONE);
                     recyclerView.setVisibility(View.VISIBLE);
                 }
 
