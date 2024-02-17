@@ -23,6 +23,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -113,116 +114,123 @@ public class NoteList extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler);
 
-        database.getReference().child("noted").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                ArrayList<Note> arrayList = new ArrayList<>();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Note note = dataSnapshot1.getValue(Note.class);
-                    Objects.requireNonNull(note).setKey(dataSnapshot1.getKey());
-                    arrayList.add(note);
-                }
 
-                if (arrayList.isEmpty()) {
-                    empty.setVisibility(View.VISIBLE);
-                    imgEmpty.setVisibility(View.VISIBLE);
-                    recyclerView.setVisibility(View.GONE);
-                } else {
-                    empty.setVisibility(View.GONE);
-                    imgEmpty.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                }
-
-                NoteAdapter adapter = new NoteAdapter(NoteList.this, arrayList);
-                recyclerView.setAdapter(adapter);
-
-                adapter.setOnItemClickListener(new NoteAdapter.onItemClickListener() {
+       // String currentUserId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        database.getReference().child("noted")
+                .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onClick(Note note) {
-                        View view = LayoutInflater.from(NoteList.this).inflate(R.layout.add_note_dialog, null);
-                        TextInputLayout titleLayout, contentLayout;
-                        TextInputEditText titleET, contentET;
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        ArrayList<Note> arrayList = new ArrayList<>();
+                        for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                            Note note = dataSnapshot1.getValue(Note.class);
+                            Objects.requireNonNull(note).setKey(dataSnapshot1.getKey());
+                            arrayList.add(note);
+                        }
 
-                        titleET = view.findViewById(R.id.titleET);
-                        contentET = view.findViewById(R.id.contentET);
-                        titleLayout = view.findViewById(R.id.titleLayout);
-                        contentLayout = view.findViewById(R.id.conntentLayout);
+                        //set visible emty text and image
+                        if (arrayList.isEmpty()) {
+                            empty.setVisibility(View.VISIBLE);
+                            imgEmpty.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        } else {
+                            empty.setVisibility(View.GONE);
+                            imgEmpty.setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
 
-                        titleET.setText(note.getTitle());
-                        contentET.setText(note.getContent());
+                        NoteAdapter adapter = new NoteAdapter(NoteList.this, arrayList);
+                        recyclerView.setAdapter(adapter);
 
-                        ProgressDialog progressDialog = new ProgressDialog(NoteList.this);
+                        adapter.setOnItemClickListener(new NoteAdapter.onItemClickListener() {
+                            @Override
+                            public void onClick(Note note) {
+                                View view = LayoutInflater.from(NoteList.this).inflate(R.layout.add_note_dialog, null);
+                                TextInputLayout titleLayout, contentLayout;
+                                TextInputEditText titleET, contentET;
 
-                        AlertDialog alertDialog = new AlertDialog.Builder(NoteList.this)
-                                .setTitle("Edit")
-                                .setView(view)
-                                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int which) {
-                                        if (Objects.requireNonNull(titleET.getText()).toString().isEmpty()) {
-                                            titleLayout.setError("This field ia required!");
-                                        } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()) {
-                                            contentLayout.setError("This field ia required!");
-                                        } else {
-                                            progressDialog.setMessage("Saving....");
-                                            progressDialog.show();
-                                            Note note1 = new Note();
-                                            note1.setTitle(titleET.getText().toString());
-                                            note1.setContent(contentET.getText().toString());
-                                            database.getReference().child("noted").child(note.getKey()).setValue(note1).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void unused) {
-                                                    progressDialog.dismiss();
-                                                    dialogInterface.dismiss();
-                                                    Toast.makeText(NoteList.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
-                                                }
-                                            }).addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    progressDialog.dismiss();
-                                                    Toast.makeText(NoteList.this, "There was erorr while saving data", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                        }
-                                    }
-                                })
-                                .setNeutralButton("Close", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int which) {
-                                        dialogInterface.dismiss();
-                                    }
-                                })
-                                .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        progressDialog.setTitle("Deleting...");
-                                        progressDialog.show();
-                                        database.getReference().child("noted").child(note.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                titleET = view.findViewById(R.id.titleET);
+                                contentET = view.findViewById(R.id.contentET);
+                                titleLayout = view.findViewById(R.id.titleLayout);
+                                contentLayout = view.findViewById(R.id.conntentLayout);
+
+                                titleET.setText(note.getTitle());
+                                contentET.setText(note.getContent());
+
+                                ProgressDialog progressDialog = new ProgressDialog(NoteList.this);
+
+                                AlertDialog alertDialog = new AlertDialog.Builder(NoteList.this)
+                                        .setTitle("Edit")
+                                        .setView(view)
+                                        .setPositiveButton("Save", new DialogInterface.OnClickListener() {
                                             @Override
-                                            public void onSuccess(Void unused) {
-                                                progressDialog.dismiss();
-                                                Toast.makeText(NoteList.this, "Deleted Seccess", Toast.LENGTH_SHORT).show();
+                                            public void onClick(DialogInterface dialogInterface, int which) {
+                                                if (Objects.requireNonNull(titleET.getText()).toString().isEmpty()) {
+                                                    titleLayout.setError("This field ia required!");
+                                                } else if (Objects.requireNonNull(contentET.getText()).toString().isEmpty()) {
+                                                    contentLayout.setError("This field ia required!");
+                                                } else {
+                                                    progressDialog.setMessage("Saving....");
+                                                    progressDialog.show();
+                                                    Note note1 = new Note();
+                                                    note1.setTitle(titleET.getText().toString());
+                                                    note1.setContent(contentET.getText().toString());
+                                                    database.getReference().child("noted").child(note.getKey()).setValue(note1).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            progressDialog.dismiss();
+                                                            dialogInterface.dismiss();
+                                                            Toast.makeText(NoteList.this, "Saved Successfully!", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            progressDialog.dismiss();
+                                                            Toast.makeText(NoteList.this, "There was an error while saving data", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    });
 
+                                                }
                                             }
-                                        }).addOnFailureListener(new OnFailureListener() {
+                                        })
+                                        .setNeutralButton("Close", new DialogInterface.OnClickListener() {
                                             @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                progressDialog.dismiss();
+                                            public void onClick(DialogInterface dialogInterface, int which) {
+                                                dialogInterface.dismiss();
                                             }
-                                        });
-                                    }
-                                }).create();
-                        alertDialog.show();
+                                        })
+                                        .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                progressDialog.setTitle("Deleting...");
+                                                progressDialog.show();
+                                                database.getReference().child("noted").child(note.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void unused) {
+                                                        progressDialog.dismiss();
+                                                        Toast.makeText(NoteList.this, "Deleted Seccess", Toast.LENGTH_SHORT).show();
+
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        progressDialog.dismiss();
+                                                    }
+                                                });
+                                            }
+                                        }).create();
+                                alertDialog.show();
+
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
                 });
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-            }
-        });
     }
 
     @Override

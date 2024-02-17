@@ -1,7 +1,7 @@
 package com.yong.Student;
 
 public class Note {
-    String key, title, content;
+    String key, title, content, userId;
 
     public Note() {
 
@@ -29,5 +29,15 @@ public class Note {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    // Constructor, getters, and setters...
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

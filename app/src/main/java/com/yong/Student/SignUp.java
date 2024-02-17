@@ -1,10 +1,15 @@
 package com.yong.Student;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,6 +29,15 @@ public class SignUp extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Sign Up");
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
 
@@ -40,6 +54,17 @@ public class SignUp extends AppCompatActivity {
                 registerUser();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void registerUser() {
@@ -85,47 +110,66 @@ public class SignUp extends AppCompatActivity {
             return;
         }
 
-        // Register the user with Firebase Authentication
-        // Register the user with Firebase Authentication
-        mAuth.createUserWithEmailAndPassword(email, password)
+        // Check if the email is already in use
+        mAuth.fetchSignInMethodsForEmail(email)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        // Registration successful, store additional user data
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        if (user != null) {
-                            // Set the display name (username) for the user's Firebase Authentication profile
-                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                    .setDisplayName(username)
-                                    .build();
+                        if (task.getResult().getSignInMethods().size() > 0) {
+                            // Email is already in use
+                            Toast.makeText(SignUp.this, "Email is already registered", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Email is not in use, proceed with registration
+                            mAuth.createUserWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(task1 -> {
+                                        if (task1.isSuccessful()) {
+                                            // Registration successful, store additional user data
+                                            FirebaseUser user = mAuth.getCurrentUser();
+                                            if (user != null) {
+                                                // Set the display name (username) for the user's Firebase Authentication profile
+                                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                        .setDisplayName(username)
+                                                        .build();
 
-                            user.updateProfile(profileUpdates)
-                                    .addOnCompleteListener(updateProfileTask -> {
-                                        if (updateProfileTask.isSuccessful()) {
-                                            // Display a success message
-                                            Toast.makeText(SignUp.this, "Registration successful", Toast.LENGTH_SHORT).show();
-                                            // Proceed to store additional user data in Firebase Realtime Database
-                                            String userId = user.getUid();
-                                            DatabaseReference usersRef = mDatabase.getReference("users").child(userId);
-                                            User newUser = new User(username, email);
-                                            usersRef.setValue(newUser);
+                                                user.updateProfile(profileUpdates)
+                                                        .addOnCompleteListener(updateProfileTask -> {
+                                                            if (updateProfileTask.isSuccessful()) {
+                                                                // Display a success message
+                                                                Toast.makeText(SignUp.this, "Registration successful", Toast.LENGTH_SHORT).show();
 
-                                            // You can also navigate to the next activity if needed
-                                            // Intent intent = new Intent(SignUp.this, NextActivity.class);
-                                            // startActivity(intent);
+                                                                Intent intent = new Intent(SignUp.this, MainActivity.class);
+                                                                startActivity(intent);
+
+                                                                // Proceed to store additional user data in Firebase Realtime Database
+                                                                // Proceed to store additional user data in Firebase Realtime Database
+                                                                String userId = user.getUid();
+                                                                DatabaseReference usersRef;
+                                                                usersRef = mDatabase.getReference("users");
+                                                                User newUser = new User(username, email);
+                                                                usersRef.child(userId).setValue(newUser);
+
+                                                                finish();
+
+                                                            } else {
+                                                                // Failed to update the user's profile
+                                                                Toast.makeText(SignUp.this, "Failed to update profile: " + updateProfileTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                            }
                                         } else {
-                                            // Failed to update the user's profile
-                                            Toast.makeText(SignUp.this, "Failed to update profile: " + updateProfileTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                            // Registration failed, display an error message
+                                            Toast.makeText(SignUp.this, "Registration failed: " + task1.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         }
                     } else {
-                        // Registration failed, display an error message
-                        Toast.makeText(SignUp.this, "Registration failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        // Failed to check email existence
+                        Toast.makeText(SignUp.this, "Failed to check email existence: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
+
 }
+
 
 
 
