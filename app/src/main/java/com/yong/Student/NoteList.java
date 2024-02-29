@@ -115,7 +115,7 @@ public class NoteList extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.recycler);
 
 
-       // String currentUserId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+        // String currentUserId = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
         database.getReference().child("noted")
                 .addValueEventListener(new ValueEventListener() {
                     @Override
@@ -201,21 +201,36 @@ public class NoteList extends AppCompatActivity {
                                         .setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialog, int which) {
-                                                progressDialog.setTitle("Deleting...");
-                                                progressDialog.show();
-                                                database.getReference().child("noted").child(note.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                AlertDialog.Builder builder = new AlertDialog.Builder(NoteList.this);
+                                                builder.setTitle("Confirm Delete");
+                                                builder.setMessage("Are you sure you want to delete this note?");
+                                                builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                                                     @Override
-                                                    public void onSuccess(Void unused) {
-                                                        progressDialog.dismiss();
-                                                        Toast.makeText(NoteList.this, "Deleted Seccess", Toast.LENGTH_SHORT).show();
-
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        progressDialog.dismiss();
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        progressDialog.setTitle("Deleting...");
+                                                        progressDialog.show();
+                                                        database.getReference().child("noted").child(note.getKey()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                            @Override
+                                                            public void onSuccess(Void unused) {
+                                                                progressDialog.dismiss();
+                                                                Toast.makeText(NoteList.this, "Deleted Successfully!", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        }).addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                progressDialog.dismiss();
+                                                                Toast.makeText(NoteList.this, "There was an error while deleting data", Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
                                                     }
                                                 });
+                                                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        dialog.dismiss();
+                                                    }
+                                                });
+                                                builder.show();
                                             }
                                         }).create();
                                 alertDialog.show();
